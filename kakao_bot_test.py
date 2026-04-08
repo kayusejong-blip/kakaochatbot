@@ -84,8 +84,9 @@ def kakao_webhook(body: dict):
                     reply_message = res.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
                     print("🧠 AI 응답 성공!")
                 else:
+                    err_msg = res.text[:200]
                     print("Gemini API 호출 에러:", res.text)
-                    reply_message = "죄송합니다, AI 분석 중 문제가 발생했습니다."
+                    reply_message = f"죄송합니다, AI 분석 중 문제가 발생했습니다. 상태코드: {res.status_code}, 요약: {err_msg}"
             except requests.exceptions.Timeout:
                 reply_message = "현재 문의 처리량이 많아 답변 생성에 시간이 걸리고 있습니다. 상담원이 곧바로 이어받아 시원하게 해결해 드리겠습니다! 잠시만 기다려주세요."
             except Exception as e:
